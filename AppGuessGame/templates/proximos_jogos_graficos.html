@@ -1,0 +1,726 @@
+{% extends 'base.html' %}
+
+{% block title %}Próximos Jogos{% endblock %}
+
+{% block content %}
+    <div class="times-info">
+        <p>{{ time1_name }} &nbsp;&nbsp;<strong>x</strong>&nbsp;&nbsp; {{ time2_name }} &nbsp;&nbsp;<strong>-</strong>&nbsp;&nbsp; {{ jogo.data|date:"d/m" }} às {{ hora|time:"H:i" }}</p>
+    </div>
+    <div class="chart-container1">
+        <div class="chart-itemCont1">
+            <p class="descricao">Guess-Game ID</p>
+            <canvas id="pontuacaoMediaRoscaChart" class="chart"></canvas>
+        </div>
+        <div class="chart-itemCont1">
+            <p class="descricao">Casas Aspostas Odds</p>
+            <canvas id="oddsChart" class="chart"></canvas>
+        </div>
+        <div class="chart-itemCont1">
+            <p class="descricao">Guess-Game Acertos</p>
+            <canvas id="guessGameOddsChart" class="chart"></canvas>
+        </div>
+        <div class="chart-itemCont1">
+            <p class="descricao">Casas Apostas Acertos</p>
+            <canvas id="casasApostasChart" class="chart"></canvas>
+        </div>
+        <div class="chart-itemCont1">
+            <p class="descricao">Pontos</p>
+            <canvas id="pontosChart" class="chart"></canvas>
+        </div>
+        <div class="chart-itemCont1">
+            <p class="descricao">Classificação</p>
+            <canvas id="lineChart" width="20" height="20"></canvas>
+        </div>        
+       <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var pontuacaoMediaRoscaCtx = document.getElementById('pontuacaoMediaRoscaChart').getContext('2d');
+                var pontuacaoMediaRoscaChart = new Chart(pontuacaoMediaRoscaCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            label: 'Pontuação Média Ponderada',
+                            data: [{{ pontuacao_time1 }}, {{ pontuacao_time2 }}],
+                            backgroundColor: ['#000000', '#33fa06'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+
+                var oddsctx = document.getElementById('oddsChart').getContext('2d');
+                var oddsChart = new Chart(oddsctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['1', 'Empate', '2'],
+                        datasets: [{
+                            label: 'Casas Apostas Odds',
+                            data: [
+                                {{ casasApostasOdds_time_casa }},
+                                {{ casasApostasOdds_empate }},
+                                {{ casasApostasOdds_time_visitante }}],
+                                backgroundColor: ['#000000', '#0631f1', '#ea6c04'],
+                                hoverOffset: 4                
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+
+                var guessGameOddsCtx = document.getElementById('guessGameOddsChart').getContext('2d');
+                var guessGameOddsChart = new Chart(guessGameOddsCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            label: 'Acertos GuessGameOdds',
+                            data: [Math.round({{ time1_rosca_data.0|floatformat:0 }}), Math.round({{ time2_rosca_data.0|floatformat:0 }})],
+                            backgroundColor: ['#000000', '#e758ec'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value + '%'
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+                                   
+                var casasApostasCtx = document.getElementById('casasApostasChart').getContext('2d');
+                var casasApostasChart = new Chart(casasApostasCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            label: 'Acertos Casas de Apostas',
+                            data: [Math.round({{ time1_rosca_data.1|floatformat:0 }}), Math.round({{ time2_rosca_data.1|floatformat:0 }})],
+                            backgroundColor: ['#000000', '#879003'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value + '%'
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+              
+                var pontosCtx = document.getElementById('pontosChart').getContext('2d');
+                var pontosChart = new Chart(pontosCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            label: 'Pontos',
+                            data: [{{ total_pontos_time1 }}, {{ total_pontos_time2 }}],
+                            backgroundColor: ['#000000', '#8b0000'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight:'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+
+
+
+                var ctx = document.getElementById('lineChart').getContext('2d');
+                var colocacao_time1 = {{ colocacao_time1|safe }};
+                var colocacao_time2 = {{ colocacao_time2|safe }};
+                
+                var lineChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            data: [colocacao_time1, colocacao_time2], // Dados para os pontos
+                            borderColor: '#191970', // Cor da linha
+                            backgroundColor: '#191970', // Cor de fundo da área abaixo da linha
+                            fill: false, // Não preencher a área abaixo da linha
+                            tension: 0.1, // Suavização da linha
+                            pointRadius: 13, // Tamanho dos pontos
+                            pointBackgroundColor: '#191970' // Cor de fundo dos pontos
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false // Remove as linhas de grade do eixo X
+                                },
+                                ticks: {
+                                    display: true, // Exibe os rótulos do eixo X
+                                    autoSkip: false, // Não pular rótulos
+                                    maxRotation: 0 // Rotação dos rótulos para mantê-los horizontais
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    display: false // Remove as linhas de grade do eixo Y
+                                },
+                                reverse: true, // Inverter o eixo Y
+                                min: 0, // Define o valor mínimo do eixo Y
+                                ticks: {
+                                    display: false, // Exibe os rótulos do eixo Y
+                                    callback: function(value, index, values) {
+                                        return value + 'º'; // Adiciona "º" aos valores do eixo Y
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false, // Exibe a legenda              
+                                position: 'bottom' // Posição da legenda
+                            },
+                            datalabels: {
+                                align: 'center',
+                                anchor: 'center',
+                                color: '#fff',
+                                font: {
+                                    size: 12,
+                                    weight: 'bold'
+                                },
+                                formatter: function(value, context) {
+                                    if (context.dataIndex === 0 || context.dataIndex === context.chart.data.labels.length - 1) {
+                                        return value + 'º'; // Adiciona "º" aos valores dos pontos
+                            }
+                                    return '';
+                                }
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+            });
+        </script>       
+    </div>
+
+    <div class="chart-container2">
+        <div class="chart-itemCont2">
+            <p class="descricao">Gols</p>
+            <canvas id="golsChart" class="chart-barra"></canvas>
+        </div>
+        <div class="chart-itemCont2">
+            <p class="descricao">Vitórias</p>
+            <canvas id="vitoriasChart" class="chart-barra"></canvas>
+        </div>
+        <div class="chart-itemCont2">
+            <p class="descricao">Empates</p>
+            <canvas id="empatesChart" class="chart-barra"></canvas>
+        </div>
+        <div class="chart-itemCont2">
+            <p class="descricao">Derrotas</p>
+            <canvas id="derrotasChart" class="chart-barra"></canvas>
+        </div>       
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {  
+                var golsCtx = document.getElementById('golsChart').getContext('2d');
+                var golsChart = new Chart(golsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Gols Marcados', 'Gols Contra', 'Saldo de Gols'],
+                        datasets: [
+                            {
+                                label: '{{ time1_name }}',
+                                data: [{{ time1_bar_data2|join:', ' }}],
+                                backgroundColor: '#000000'
+                            },
+                            {
+                                label: '{{ time2_name }}',
+                                data: [{{ time2_bar_data2|join:', ' }}],
+                                backgroundColor: '#ffd700'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                grid: {
+                                    display: false // Remove as linhas de grade do eixo Y
+                                },
+                                beginAtZero: true,
+                                ticks: {
+                                    display: false // Exibe os rótulos do eixo Y
+                                }
+                            }
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size:14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+                               
+                var vitoriasCtx = document.getElementById('vitoriasChart').getContext('2d');
+                var vitoriasChart = new Chart(vitoriasCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Vitórias', 'Vit.Casa', 'Vit.Fora'],
+                        datasets: [
+                            {
+                                label: '{{ time1_name }}',
+                                data: [{{ time1_vitorias_data|join:', ' }}],
+                                backgroundColor: '#000000'
+                            },
+                            {
+                                label: '{{ time2_name }}',
+                                data: [{{ time2_vitorias_data|join:', ' }}],
+                                backgroundColor: '#fb2904'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                grid: {
+                                    display: false // Remove as linhas de grade do eixo Y
+                                },
+                                beginAtZero: true,
+                                ticks: {
+                                    display: false // Exibe os rótulos do eixo Y
+                                }
+                            }
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });  
+
+                var empatesCtx = document.getElementById('empatesChart').getContext('2d');
+                var empatesChart = new Chart(empatesCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Empates', 'Emp.Casa', 'Emp.Fora'],
+                        datasets: [
+                            {
+                                label: '{{ time1_name }}',
+                                data: [{{ time1_empates_data|join:', ' }}],
+                                backgroundColor: '#000000'
+                            },
+                            {
+                                label: '{{ time2_name }}',
+                                data: [{{ time2_empates_data|join:', ' }}],
+                                backgroundColor: '#3cb371'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                grid: {
+                                    display: false // Remove as linhas de grade do eixo Y
+                                },
+                                beginAtZero: true,
+                                ticks: {
+                                    display: false // Exibe os rótulos do eixo Y
+                                }
+                            }
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                }); 
+                
+                var derrotasCtx= document.getElementById('derrotasChart').getContext('2d');
+                var derrotasChart = new Chart(derrotasCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Derrotas', 'Der.Casa', 'Der.Fora',],
+                        datasets: [
+                            {
+                                label: '{{ time1_name }}',
+                                data: [{{ time1_derrotas_data|join:', ' }}],
+                                backgroundColor: '#000000'
+                            },
+                            {
+                                label: '{{ time2_name }}',
+                                data: [{{ time2_derrotas_data|join:', ' }}],
+                                backgroundColor: '#daa520'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                grid: {
+                                    display: false // Remove as linhas de grade do eixo Y
+                                },
+                                beginAtZero: true,
+                                ticks: {
+                                    display: false // Exibe os rótulos do eixo Y
+                                }
+                            }
+                        },
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+            });
+        </script>       
+    </div>
+    <div class="chart-container3">    
+        <div class="melhor-pior">
+            <p class="mpu-titulo">Melhor Ataque/Defesa:</p>
+            <p>{{ melhor_ataque }} {{ melhor_ataque_gols }} gols</p>
+            <p>{{ melhor_defesa }} {{ melhor_defesa_gols }} gols</p>
+            <br>
+            <p class="mpu-titulo">Pior Ataque/Defesa:</p>
+            <p>{{ pior_ataque }} {{ pior_ataque_gols }} gols</p>
+            <p>{{ pior_defesa }} {{ pior_defesa_gols }} gols</p>
+        </div>
+        <div class="ultimos-jogos">
+            <p class="mpu-titulo">Últimos 7 Jogos:</p>
+            <p>{{ time_casa }}:</p>
+            <div class="resultados">
+                {% for aposta in ultimas_7_apostas_time_casa %}
+                    {% if aposta.vitorias > 0 %}
+                        <div class="bola verde">✓</div>
+                    {% elif aposta.empates > 0 %}
+                        <div class="bola cinza">--</div>
+                    {% elif aposta.derrotas > 0 %}
+                        <div class="bola vermelha">x</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <br>
+            <p>{{ time_visitante }}:</p>
+            <div class="resultados">
+                {% for aposta in ultimas_7_apostas_time_visitante %}
+                    {% if aposta.vitorias > 0 %}
+                        <div class="bola verde">✓</div>
+                    {% elif aposta.empates > 0 %}
+                        <div class="bola cinza">--</div>
+                    {% elif aposta.derrotas > 0 %}
+                        <div class="bola vermelha">x</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="infor-jogos">
+            {% if jogo_anterior_time1 %}
+                <p class="mpu-titulo">Jogo Anterior:</p>
+                <p>
+                    {% if resultado_jogo_anterior_time1 %}
+                        {{ jogo_anterior_time1.data|date:"d/m" }} - {{ jogo_anterior_time1.time_casa }} {{ resultado_jogo_anterior_time1.resultado_time_casa }} X {{ resultado_jogo_anterior_time1.resultado_time_visitante }} {{ jogo_anterior_time1.time_visitante }}
+                    {% else %}
+                        {{ jogo_anterior_time1.data|date:"d/m" }} - Indisponível
+                    {% endif %}
+                </p>
+            {% endif %}
+            {% if jogo_anterior_time2 %}
+                <p>
+                    {% if resultado_jogo_anterior_time2 %}
+                        {{ jogo_anterior_time2.data|date:"d/m" }} - {{ jogo_anterior_time2.time_casa }} {{ resultado_jogo_anterior_time2.resultado_time_casa }} X {{ resultado_jogo_anterior_time2.resultado_time_visitante }} {{ jogo_anterior_time2.time_visitante }}
+                    {% else %}
+                        {{ jogo_anterior_time2.data|date:"d/m" }} - Indisponível
+                    {% endif %}
+                </p>
+            {% endif %}
+
+            <br>
+            <p class="mpu-titulo">Próximo jogo:</p>
+            {% if proximo_jogo_time1 %}
+                <p>
+                    {% if proximo_jogo_time1.data %}
+                        {{ proximo_jogo_time1.data|date:"d/m" }} - {{ proximo_jogo_time1.time_casa }} X {{ proximo_jogo_time1.time_visitante }}
+                    {% else %}
+                        Indisponível
+                    {% endif %}
+                </p>
+            {% else %}
+                <p>{{ time1_name }}: Indisponível</p>
+            {% endif %}
+        
+            {% if proximo_jogo_time2 %}
+                <p>
+                    {% if proximo_jogo_time2.data %}
+                        {{ proximo_jogo_time2.data|date:"d/m" }} - {{ proximo_jogo_time2.time_casa }} X {{ proximo_jogo_time2.time_visitante }}
+                    {% else %}
+                        Indisponível
+                    {% endif %}
+                </p>
+            {% else %}
+                <p>{{ time2_name }}: Indisponível</p>
+            {% endif %}
+        </div>
+        <div class="chart-itemCont3">
+            <p class="descricao">Total de Jogos</p>
+            <canvas id="jogosChart" class="chart"></canvas>
+        </div>
+        <div class="chart-itemCont3">
+            <p class="descricao">Favorito - Perdeu</p>
+            <canvas id="favoritoDerrotaChart" class="chart"></canvas>
+        </div>
+        <div class="chart-itemCont3">
+            <p class="descricao">Favorito - Empatou</p>
+            <canvas id="favoritoEmpateChart" class="chart"></canvas>
+        </div>
+        <div class="chart-itemCont3">
+            <p class="descricao">Azarão - Deu Zebra</p>
+            <canvas id="zebraChart" class="chart"></canvas>
+        </div> 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {  
+                var jogosCtx = document.getElementById('jogosChart').getContext('2d');
+                var jogosChart = new Chart(jogosCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            label: 'Jogos',
+                            data: [{{ total_jogos_time1 }}, {{ total_jogos_time2 }}],
+                            backgroundColor: ['#000000', '#1af5d8'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#fff',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+
+                var favoritoDerrotaCtx = document.getElementById('favoritoDerrotaChart').getContext('2d');
+                var favoritoDerrotaChart = new Chart(favoritoDerrotaCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            label: 'Zebra',
+                            data: [{{ total_favorito_derrota_time1 }}, {{ total_favorito_derrota_time2 }}],
+                            backgroundColor: ['#000000', '#ff4500'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#33fa06',
+                                font: {
+                                    size: 17,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+            
+                var favoritoEmpateCtx = document.getElementById('favoritoEmpateChart').getContext('2d');
+                var favoritoEmpateChart = new Chart(favoritoEmpateCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            label: 'Zebra',
+                            data: [{{ total_favorito_empate_time1 }}, {{ total_favorito_empate_time2 }}],
+                            backgroundColor: ['#000000', '#8A2BE2'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#33fa06',
+                                font: {
+                                    size: 17,
+                                    weight: 'bold'
+                                },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });
+
+                var zebraCtx = document.getElementById('zebraChart').getContext('2d');
+                var zebraChart = new Chart(zebraCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['{{ time1_name }}', '{{ time2_name }}'],
+                        datasets: [{
+                            label: 'Zebra',
+                            data: [{{ total_zebra_time1 }}, {{ total_zebra_time2 }}],
+                            backgroundColor: ['#000000', '#c28d06'],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            datalabels: {
+                                color: '#33fa06',
+                                font: {
+                                    size: 17,
+                                    weight: 'bold'
+                                    },
+                                formatter: (value) => value
+                            },
+                            legend: {
+                                display: true,
+                                position: 'bottom' // Muda a posição da legenda para a parte inferior
+                            }
+                        }
+                    },
+                    plugins: [ChartDataLabels]
+                });            
+            });
+        </script>    
+    </div>
+{% endblock %}
+

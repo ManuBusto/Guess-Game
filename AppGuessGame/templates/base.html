@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Base com navbar{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <!-- Inclui o Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Inclui o plugin Chart.js DataLabels -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    </style>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXX-X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-XXXXXX-X');
+    </script>
+    
+    <!-- Geolocalização por IP (assíncrono) -->
+    <script>
+        window.addEventListener('load', () => {
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    fetch('/log_ip/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</head>
+<body>
+    <div class="grid-layout">
+        <nav class="navbar">
+            <div class="container">
+                <a href="/sobreNos" class="logo-link">
+                    <h1 class="logo">Guess-Game</h1>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/proximos_jogos_lista">Próximos Jogos</a></li>                    
+                    <li><a href="/guess_game_times">Comparar Times</a></li>
+                    <li><a href="/sobreNos" id="about-link">Sobre Nós</a></li>
+                    <li><a href="/contato">Contato</a></li>
+                </ul>
+                <!-- Container para os links à direita -->
+                <ul class="nav-links-right">
+                    <li><a href="/register">Cadastre-se</a></li>
+                    <li><a href="/login">Login</a></li>
+                </ul>
+            </div>
+        </nav>
+        <main class="content">
+            {% block content %}
+            <!-- o conteúdo começa aqui-->
+            {% endblock %}
+        </main>
+    
+        
+        {% if show_cookie_consent %}
+        <div id="cookie-consent" class="cookie-consent">
+            <p>Usamos cookies para melhorar sua experiência. <a href="/cookie_policy">Saiba mais</a>.</p>
+            <form method="post" action="/accept_cookies">
+                {% csrf_token %}
+                <button type="submit">Aceitar</button>
+            </form>
+        </div>
+        {% endif %}
+        
+
+        <footer class="footer">
+            <p> &copy; 2024 Guess-Game. </p>
+            <p>Todos os direitos reservados.</p>
+            <p>
+                <a class="footer_a" href="/politicaPrivacidade">Política de Privacidade</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
