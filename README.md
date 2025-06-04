@@ -1,4 +1,4 @@
-# Futebol
+# Guess-Game
 Plataforma de insights e previsões para futebol, com análises estatísticas, gráficos e métricas para auxiliar em decisões e apostas.
 
 # Guess-Game - Insights e Análises de Futebol
