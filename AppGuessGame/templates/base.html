@@ -2,24 +2,24 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Base com navbar{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-    <!-- Inclui o Chart.js -->
+
+    <!-- Chart.js e plugin DataLabels (carregar apenas em páginas específicas, se possível) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Inclui o plugin Chart.js DataLabels -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-    </style>
-    
+
+    <!-- Fontes Google (unificadas em um único link) -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-XXXXXX-X"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'UA-XXXXXX-X');
     </script>
     
@@ -52,8 +52,9 @@
                 <ul class="nav-links">
                     <li><a href="/proximos_jogos_lista">Próximos Jogos</a></li>                    
                     <li><a href="/guess_game_times">Comparar Times</a></li>
+                    <li><a href="/oferecemos" id="about-link">Oferecemos</a></li>
                     <li><a href="/sobreNos" id="about-link">Sobre Nós</a></li>
-                    <li><a href="/contato">Contato</a></li>
+                    <li><a href="/faleConosco">Fale Conosco</a></li>
                 </ul>
                 <!-- Container para os links à direita -->
                 <ul class="nav-links-right">
@@ -66,19 +67,79 @@
             {% block content %}
             <!-- o conteúdo começa aqui-->
             {% endblock %}
-        </main>
-    
-        
+        </main>            
+
         {% if show_cookie_consent %}
-        <div id="cookie-consent" class="cookie-consent">
-            <p>Usamos cookies para melhorar sua experiência. <a href="/cookie_policy">Saiba mais</a>.</p>
-            <form method="post" action="/accept_cookies">
-                {% csrf_token %}
-                <button type="submit">Aceitar</button>
-            </form>
-        </div>
+            
+            <div id="cookie-consent" class="cookie-consent">
+                <p>Usamos cookies para melhorar sua experiência. <a href="/cookie_policy">Saiba mais</a>.</p>
+                <form method="post" action="/accept_cookies/">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="accept">Aceitar</button>
+                    <button type="submit" name="action" value="reject">Rejeitar</button>
+                    <button type="button" id="custom-settings-button">Personalizar</button>
+                </form>
+
+                <div id="custom-settings" style="display: none;">
+                    <h3>Configurações Personalizadas</h3>
+                    <form id="custom-settings-form" method="post" action="/accept_cookies/">
+                        {% csrf_token %}
+                        <label>
+                            <input type="checkbox" name="analytics" checked> Aceitar cookies analíticos
+                        </label>
+                        <br>
+                        <label>
+                            <input type="checkbox" name="marketing" checked> Aceitar cookies de marketing
+                        </label>
+                        <br>
+                        <button type="submit" name="action" value="custom_settings">Salvar Configurações</button>
+                    </form>
+                </div>
+            </div>
+
+            <script>
+                // Exibe ou esconde as configurações personalizadas ao clicar em 'Personalizar'
+                document.getElementById('custom-settings-button').onclick = function() {
+                    var settingsDiv = document.getElementById('custom-settings');
+                    settingsDiv.style.display = settingsDiv.style.display === 'none' ? 'block' : 'none';
+                };
+
+                // Quando o formulário de configurações personalizadas é enviado
+                document.getElementById('custom-settings-form').onsubmit = function(event) {
+                    // Impede o envio padrão do formulário (que recarregaria a página)
+                    event.preventDefault();
+
+                    // Fechar a janela de consentimento
+                    var consentDiv = document.getElementById('cookie-consent');
+                    consentDiv.style.display = 'none';
+
+                    // Aqui você pode fazer algo para enviar os dados do formulário via AJAX, se necessário
+                    var form = document.getElementById('custom-settings-form');
+                    var formData = new FormData(form);
+
+                    // Enviar os dados via fetch, por exemplo
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        // Lidar com a resposta, se necessário
+                        console.log('Configurações salvas');
+                    })
+                    .catch(error => {
+                        console.error('Erro ao salvar configurações', error);
+                    });
+                };
+
+                // Quando o formulário principal (aceitar ou rejeitar) é enviado
+                document.querySelector('form[action="/accept_cookies/"]').onsubmit = function() {
+                    // Fechar a janela de consentimento
+                    var consentDiv = document.getElementById('cookie-consent');
+                    consentDiv.style.display = 'none';
+                };
+            </script>
         {% endif %}
-        
+
 
         <footer class="footer">
             <p> &copy; 2024 Guess-Game. </p>
@@ -86,6 +147,7 @@
             <p>
                 <a class="footer_a" href="/politicaPrivacidade">Política de Privacidade</a>
             </p>
+            <p class="footer_signature">M BUSTO</p> <!-- Adiciona a assinatura -->
         </footer>
     </div>
 </body>

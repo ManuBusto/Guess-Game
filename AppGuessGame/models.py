@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission, User
 from django.conf import settings
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 
@@ -159,15 +160,17 @@ class SomaPontosTimeCampeonato(models.Model):
     
 
 
-# Contato
 class Contato(models.Model):
-    nome = models.CharField(max_length=100)
-    email = models.EmailField()
-    assunto = models.CharField(max_length=200)
-    mensagem = models.TextField()
+    nome = models.CharField(max_length=50, blank=False)  # Campo obrigatório
+    sobrenome = models.CharField(max_length=50, blank=False)  # Campo obrigatório
+    email = models.EmailField(blank=False)  # Campo obrigatório
+    telefone = PhoneNumberField(blank=False, null=False)  # Campo obrigatório
+    assunto = models.CharField(max_length=200, blank=False)  # Campo obrigatório
+    mensagem = models.TextField(blank=False)  # Campo obrigatório
 
     def __str__(self):
         return f'{self.nome} - {self.assunto}'
+
 
 
 
@@ -205,14 +208,19 @@ class VisitorLog(models.Model):
         return f'{self.ip} - {self.city}, {self.country_name}'
 
 
-
 class CustomUser(AbstractUser):
-    cookies_accepted = models.BooleanField(default=False)
+    # Campos para consentimento de cookies
+    cookies_accepted = models.BooleanField(default=False)  # Aceitação geral de cookies
+    analytics_cookies = models.BooleanField(default=False)  # Aceitação de cookies analíticos
+    marketing_cookies = models.BooleanField(default=False)   # Aceitação de cookies de marketing
 
     class Meta:
-        db_table = 'customuser'  # Exemplo de nome de tabela explícito
+        db_table = 'customuser'  # Nome da tabela no banco de dados
+
     def __str__(self):
         return self.username
+
+
 
 # Cadastro de usuários
 class Profile(models.Model):

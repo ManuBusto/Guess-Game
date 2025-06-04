@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="times-info">
-        <p>{{ time1_name }} &nbsp;&nbsp;<strong>x</strong>&nbsp;&nbsp; {{ time2_name }} &nbsp;&nbsp;<strong>-</strong>&nbsp;&nbsp; {{ jogo.data|date:"d/m" }} às {{ hora|time:"H:i" }}</p>
+        <p><strong>Campeonato:</strong> {{ campeonato }} &nbsp;&nbsp;&nbsp;&nbsp;<strong>Jogo:</strong>&nbsp;{{ time1_name }} &nbsp;&nbsp;<strong>x</strong>&nbsp;&nbsp; {{ time2_name }} &nbsp;&nbsp;<strong>-</strong>&nbsp;&nbsp; {{ jogo.data|date:"d/m" }} às {{ hora|time:"H:i" }}</p>
     </div>
     <div class="chart-container1">
         <div class="chart-itemCont1">
@@ -490,16 +490,16 @@
     </div>
     <div class="chart-container3">    
         <div class="melhor-pior">
-            <p class="mpu-titulo">Melhor Ataque/Defesa:</p>
+            <p class="mpu-titulo">Melhor Ataque/Defesa</p>
             <p>{{ melhor_ataque }} {{ melhor_ataque_gols }} gols</p>
             <p>{{ melhor_defesa }} {{ melhor_defesa_gols }} gols</p>
             <br>
-            <p class="mpu-titulo">Pior Ataque/Defesa:</p>
+            <p class="mpu-titulo">Pior Ataque/Defesa</p>
             <p>{{ pior_ataque }} {{ pior_ataque_gols }} gols</p>
             <p>{{ pior_defesa }} {{ pior_defesa_gols }} gols</p>
         </div>
         <div class="ultimos-jogos">
-            <p class="mpu-titulo">Últimos 7 Jogos:</p>
+            <p class="mpu-titulo">Últimos 7 Jogos</p>
             <p>{{ time_casa }}:</p>
             <div class="resultados">
                 {% for aposta in ultimas_7_apostas_time_casa %}
@@ -529,10 +529,10 @@
 
         <div class="infor-jogos">
             {% if jogo_anterior_time1 %}
-                <p class="mpu-titulo">Jogo Anterior:</p>
+                <p class="mpu-titulo">Jogo Anterior</p>
                 <p>
                     {% if resultado_jogo_anterior_time1 %}
-                        {{ jogo_anterior_time1.data|date:"d/m" }} - {{ jogo_anterior_time1.time_casa }} {{ resultado_jogo_anterior_time1.resultado_time_casa }} X {{ resultado_jogo_anterior_time1.resultado_time_visitante }} {{ jogo_anterior_time1.time_visitante }}
+                    {{ jogo_anterior_time1.data|date:"d/m" }} {{ jogo_anterior_time1.campeonato }}  - {{ jogo_anterior_time1.time_casa }} {{ resultado_jogo_anterior_time1.resultado_time_casa }} X {{ resultado_jogo_anterior_time1.resultado_time_visitante }} {{ jogo_anterior_time1.time_visitante }}
                     {% else %}
                         {{ jogo_anterior_time1.data|date:"d/m" }} - Indisponível
                     {% endif %}
@@ -541,7 +541,7 @@
             {% if jogo_anterior_time2 %}
                 <p>
                     {% if resultado_jogo_anterior_time2 %}
-                        {{ jogo_anterior_time2.data|date:"d/m" }} - {{ jogo_anterior_time2.time_casa }} {{ resultado_jogo_anterior_time2.resultado_time_casa }} X {{ resultado_jogo_anterior_time2.resultado_time_visitante }} {{ jogo_anterior_time2.time_visitante }}
+                        {{ jogo_anterior_time2.data|date:"d/m" }} {{ jogo_anterior_time2.campeonato }} - {{ jogo_anterior_time2.time_casa }} {{ resultado_jogo_anterior_time2.resultado_time_casa }} X {{ resultado_jogo_anterior_time2.resultado_time_visitante }} {{ jogo_anterior_time2.time_visitante }}
                     {% else %}
                         {{ jogo_anterior_time2.data|date:"d/m" }} - Indisponível
                     {% endif %}
@@ -549,11 +549,11 @@
             {% endif %}
 
             <br>
-            <p class="mpu-titulo">Próximo jogo:</p>
+            <p class="mpu-titulo">Próximo jogo</p>
             {% if proximo_jogo_time1 %}
                 <p>
                     {% if proximo_jogo_time1.data %}
-                        {{ proximo_jogo_time1.data|date:"d/m" }} - {{ proximo_jogo_time1.time_casa }} X {{ proximo_jogo_time1.time_visitante }}
+                        {{ proximo_jogo_time1.data|date:"d/m" }} {{ proximo_jogo_time1.campeonato }} - {{ proximo_jogo_time1.time_casa }} X {{ proximo_jogo_time1.time_visitante }}
                     {% else %}
                         Indisponível
                     {% endif %}
@@ -565,7 +565,7 @@
             {% if proximo_jogo_time2 %}
                 <p>
                     {% if proximo_jogo_time2.data %}
-                        {{ proximo_jogo_time2.data|date:"d/m" }} - {{ proximo_jogo_time2.time_casa }} X {{ proximo_jogo_time2.time_visitante }}
+                        {{ proximo_jogo_time2.data|date:"d/m" }} {{ proximo_jogo_time2.campeonato }} - {{ proximo_jogo_time2.time_casa }} X {{ proximo_jogo_time2.time_visitante }}
                     {% else %}
                         Indisponível
                     {% endif %}

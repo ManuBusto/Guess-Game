@@ -8,10 +8,11 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
-from datetime import date
+from django.utils import timezone
+from datetime import date, timedelta
 from .forms import VisitorLogForm, CustomUserForm, ProfileForm, UserRegistrationForm, ContatoForm
 import json
-from .models import PontuacaoTime, SomaPontosTimeCampeonato, PontuacaoTime, Proximos_jogos, ResultadoJogo, Jogos, Aposta, VisitorLog, Profile
+from .models import PontuacaoTime, SomaPontosTimeCampeonato, PontuacaoTime, Proximos_jogos, ResultadoJogo, Jogos, Aposta, VisitorLog, Profile, Contato
 
 
 
@@ -24,6 +25,9 @@ def politicaPrivacidade(request):
 
 def sobreNos(request):
     return render(request, 'sobreNos.html')
+
+def oferecemos(request):
+    return render(request, 'oferecemos.html')
 
 def readme(request):
     return render(request, 'readme.html')
@@ -106,6 +110,7 @@ def proximos_jogos_graficos(request, jogo_id):
         time2_bar_data2 = [time2.soma_gols_marcados, time2.soma_gols_contra, time2.soma_gols_saldo]
 
         context.update({
+            'campeonato': time1.campeonato,
             'time1_name': time1.time,
             'time2_name': time2.time,
             'total_jogos_time1': total_jogos_time1,
@@ -222,6 +227,8 @@ def proximos_jogos_graficos(request, jogo_id):
     return render(request, 'proximos_jogos_graficos.html', context)
     
 
+from django.db.models import Q
+from django.utils import timezone
 
 def proximos_jogos_lista(request):
     # Obtendo a lista de campeonatos distintos e ordenando alfabeticamente
@@ -232,13 +239,24 @@ def proximos_jogos_lista(request):
         'selected_campeonato': selected_campeonato,
     }
 
+    # Converte o horário para o fuso horário local
+    now = timezone.localtime(timezone.now())
+    two_hours_ago = now - timezone.timedelta(hours=2)
+    end_of_today = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+
+    # Filtrando jogos que ocorrem hoje das duas últimas horas até o final do dia ou nos dias futuros
+    jogos_query = Proximos_jogos.objects.filter(
+        Q(data=now.date(), hora__gte=two_hours_ago.time(), hora__lte=now.time()) |  # Jogos de hoje das duas últimas horas até agora
+        Q(data=now.date(), hora__gt=now.time(), hora__lte=end_of_today.time()) |   # Jogos de hoje depois da hora atual até o final do dia
+        Q(data__gt=now.date())  # Jogos de dias futuros
+    ).order_by('data', 'hora')  # Ordena os jogos por data e hora
+
+    # Aplica o filtro de campeonato se estiver selecionado
     if selected_campeonato:
-        jogos = Proximos_jogos.objects.filter(campeonato__icontains=selected_campeonato)
-    else:
-        jogos = Proximos_jogos.objects.all()
-    
-    context['jogos'] = jogos
-    
+        jogos_query = jogos_query.filter(campeonato__icontains=selected_campeonato)
+
+    context['jogos'] = jogos_query
+
     return render(request, 'proximos_jogos_lista.html', context)
 
 
@@ -470,30 +488,42 @@ def guess_game_times(request):
 
 
 
-def contato(request):
+def faleConosco(request):
     if request.method == 'POST':
         form = ContatoForm(request.POST)
         if form.is_valid():
+            # Salvar os dados do formulário no banco de dados
+            contato = form.save()  # Salva o contato no banco de dados
+            
             nome = form.cleaned_data['nome']
+            sobrenome = form.cleaned_data['sobrenome']  # Adiciona o sobrenome
             email = form.cleaned_data['email']
+            telefone = form.cleaned_data['telefone']  # Adiciona o telefone
             assunto = form.cleaned_data['assunto']
             mensagem = form.cleaned_data['mensagem']
             
-            # Enviar e-mail
-            send_mail(
-                assunto,
-                mensagem,
-                email,
-                ['seu-email@exemplo.com'],  # Substitua pelo e-mail de destino
-                fail_silently=False,
-            )
+            try:
+                # Enviar e-mail
+                send_mail(
+                    assunto,
+                    mensagem,
+                    'no-reply@seusite.com',  # Substitua pelo e-mail do remetente
+                    ['seu-email@exemplo.com'],  # Substitua pelo e-mail de destino
+                    fail_silently=False,
+                )
+            except Exception as e:
+                # Se o envio do e-mail falhar, adicione um tratamento de erro
+                print(f'Erro ao enviar e-mail: {e}')
+                form.add_error(None, 'Houve um problema ao enviar o e-mail. Por favor, tente novamente.')
             
             # Redirecionar para a página de sucesso
             return redirect('contato_sucesso')
     else:
         form = ContatoForm()
     
-    return render(request, 'contato.html', {'form': form})
+    return render(request, 'faleConosco.html', {'form': form})
+    
+    
 
 # Renderiza a página de sucesso após o envio do formulário de contato.
 def contato_sucesso(request):
@@ -504,12 +534,45 @@ def contato_sucesso(request):
 # Função que lida com aceitação de cookies
 def accept_cookies(request):
     response = redirect(request.META.get('HTTP_REFERER', '/'))
-    if request.user.is_authenticated:
-        request.user.cookies_accepted = True
-        request.user.save()
-    else:
-        response.set_cookie('cookies_accepted', 'true', max_age=365*24*60*60)  # 1 ano
+    
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if action == 'accept':
+            if request.user.is_authenticated:
+                request.user.cookies_accepted = True
+                request.user.analytics_cookies = True  # Aceita cookies analíticos
+                request.user.marketing_cookies = True   # Aceita cookies de marketing
+                request.user.save()
+            else:
+                response.set_cookie('cookies_accepted', 'true', max_age=365*24*60*60)  # 1 ano
+                response.set_cookie('analytics_cookies', 'true', max_age=365*24*60*60)
+                response.set_cookie('marketing_cookies', 'true', max_age=365*24*60*60)
+
+        elif action == 'reject':
+            if request.user.is_authenticated:
+                request.user.cookies_accepted = False
+                request.user.analytics_cookies = False
+                request.user.marketing_cookies = False
+                request.user.save()
+            else:
+                response.set_cookie('cookies_accepted', 'false', max_age=365*24*60*60)
+
+        elif action == 'custom_settings':
+            # Lógica para configurações personalizadas
+            analytics_cookies = request.POST.get('analytics', 'off') == 'on'
+            marketing_cookies = request.POST.get('marketing', 'off') == 'on'
+            if request.user.is_authenticated:
+                request.user.analytics_cookies = analytics_cookies
+                request.user.marketing_cookies = marketing_cookies
+                request.user.save()
+            else:
+                response.set_cookie('analytics_cookies', str(analytics_cookies), max_age=365*24*60*60)
+                response.set_cookie('marketing_cookies', str(marketing_cookies), max_age=365*24*60*60)
+
     return response
+
+
 
 # Esta função renderiza a página que detalha a política de cookies, os usuários obtem mais informações sobre como os cookies
 #  são usados no site.
