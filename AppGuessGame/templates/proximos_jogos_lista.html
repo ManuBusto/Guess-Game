@@ -5,8 +5,8 @@
 {% block content %}
     <form id="campeonatoForm" action="{% url 'proximos_jogos_lista' %}" method="GET" class="grid-form">
         <div class="form-group">
-            <label for="campeonato" class="form-label">Campeonato:</label>
-            <select name="campeonato" id="campeonato" class="form-select">
+            <label class="form-label" for="campeonato">Campeonato:</label>
+            <select id="campeonato" name="campeonato">
                 <option value="">Todos</option>
                 {% for campeonato in campeonatos %}
                     <option value="{{ campeonato }}" {% if campeonato == selected_campeonato %} selected {% endif %}>{{ campeonato }}</option>
@@ -15,8 +15,11 @@
         </div>
         <div class="form-group">
             <button type="submit" class="form-button">Filtrar</button>
+            <pan class="times-info">Conheça nossos insights selecionando um jogo!</span>
         </div>
+            
     </form>
+
     <div class="grid-table">
         {% for jogo in jogos %}
         <a href="{% url 'proximos_jogos_graficos' jogo.game_id %}">
