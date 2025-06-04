@@ -1,158 +1,159 @@
 * {
-    margin: 0; /* Define margem zero para todos os elementos */
-    padding: 0; /* Define padding zero para todos os elementos */
-    box-sizing: border-box; /* Mantém o tamanho total dos elementos, incluindo padding e borda */
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
 }
 
 html, body {
-    height: 100%; /* Define a altura de 100% para o HTML e o corpo */
-    font-family: Arial, sans-serif; /* Define a fonte para todo o documento */
-    background-color: #fff; /* Define a cor de fundo para o HTML e o corpo */
-    color: #666666; /* pode usar o #888888 Define a cor do texto para o HTML e o corpo */
-    margin: 0; /* Remove a margem padrão do body */
-    padding: 0; /* Remove o padding padrão do body */
+    height: 100%; 
+    font-family: Arial, sans-serif; 
+    background-color: #fff; 
+    color: #666666; 
+    margin: 0; 
+    padding: 0; 
 }
-/* Layout principal usando Grid */
+
 .grid-layout {
-    display: grid; /* Define o layout como grid */
-    grid-template-areas: /* Define as áreas do grid */
+    display: grid; 
+    grid-template-areas: 
         "header"
         "main"
         "footer";
-    grid-template-columns: 1fr; /* Define a largura das colunas */
-    grid-template-rows: auto 1fr auto; /* Define a altura das linhas */
-    min-height: 100vh; /* Garante que o layout tenha pelo menos a altura da janela */
-    gap: 0px; /* Define o espaçamento entre as células do grid */
-    background-color: #fff; /* Define a cor de fundo da navbar */
+    grid-template-columns: 1fr; 
+    grid-template-rows: auto 1fr auto; 
+    min-height: 100vh; 
+    gap: 0px; 
+    background-color: #fff; 
 }
-/* Estilo da Navbar */
+
 .navbar {
-    grid-area: header; /* Define a área do grid ocupada pela navbar */
-    background-color: #08d8eb; /* Define a cor de fundo da navbar */
-    color: #000 ; /* Define a cor do texto da navbar */
-    padding: 1px 20px; /* Define o espaçamento interno da navbar (altura e margem direita) */
-    width: 100%; /* Faz a navbar ocupar toda a largura */
-    z-index: 1000; /* Define a ordem de empilhamento da navbar */
+    grid-area: header; 
+    background-color: #08d8eb; 
+    color: #000 ; 
+    padding: 1px 20px; 
+    width: 100%; 
+    z-index: 1000; 
 }
 .navbar .container {
-    display: flex; /* Usa flexbox para alinhar itens */
-    justify-content: space-between; /* Distribui o espaço entre os itens */
-    align-items: center; /* Alinha itens verticalmente ao centro */
-    max-width: auto; /* Define a largura máxima do container */   
-    height: 60px; /* Define a altura do container */ 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    max-width: auto; 
+    height: 60px; 
 }
 .navbar .logo-link {
-    text-decoration: none; /* Remove o sublinhado do link */
+    text-decoration: none; 
 }
 
 .navbar .logo {
-    font-size: 25px; /* Define o tamanho da fonte do logotipo */
+    font-size: 25px; 
     font-family: "Pacifico", cursive;
     font-weight: 400;
     font-style: normal;
     box-shadow: 0 3px 5px #000;
-    transition: box-shadow 0.5s; /* Adicionando transição para o efeito de sombra */
-    padding: 1px 5px; /* Define o espaçamento interno dos links */
-    border-radius: 8px; /* Define as bordas arredondadas dos links */
+    transition: box-shadow 0.5s; 
+    padding: 1px 5px; 
+    border-radius: 8px; 
     background-color: #f00;
-    color: #fff; /* Cor do texto para combinar com a borda */
+    color: #fff; 
 }
-/* Efeito de hover para o logo */
+
 .navbar .logo:hover {
-    box-shadow: 0 1px 2px #000; /* Sombra mais suave ao passar o mouse */
+    box-shadow: 0 1px 2px #000; 
 }
-/* Estilos para a barra de navegação */
+
 .navbar .nav-links {
-    list-style-type: none; /* Remove marcadores de lista */
-    display: flex; /* Usa flexbox para alinhar itens */
-    justify-content: auto; /* Alinha os itens automaticamente */
-    margin-top: 25px; /* Adiciona uma margem  */
-    padding: 0; /* Remove o padding padrão */
+    list-style-type: none; 
+    display: flex; 
+    justify-content: auto; 
+    margin-top: 25px; 
+    padding: 0; 
 }
 .nav-links-right {
-    list-style-type: none; /* Remove marcadores de lista */
-    display: flex; /* Usa flexbox para alinhar itens */
-    justify-content: auto; /* Alinha os itens automaticamente */
+    list-style-type: none; 
+    display: flex; 
+    justify-content: auto; 
 }
 .navbar .nav-links li,
 .nav-links-right li {
-    margin-left: 30px; /* Define o espaçamento entre os itens da navegação */
+    margin-left: 30px; 
 }
 .navbar .nav-links a,
 .navbar .nav-links-right a {
-    color: #000; /* Define a cor dos links */
-    text-decoration: none; /* Remove o sublinhado dos links */
-    font-weight: bold;
-    padding: 3px 6px; /* Define o espaçamento interno dos links */
-    border-radius: 6px; /* Define as bordas arredondadas dos links */
+    font-family: 'Roboto', sans-serif;
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 3px 6px; 
+    border-radius: 6px; 
     transition: background-color 0.3s;
 }
 .navbar .nav-links a:hover,
 .navbar .nav-links-right a[href="/register"]:hover {
-    background-color: #fff; /* Define a cor de fundo ao passar o mouse sobre os links */
+    background-color: #fff; 
     box-shadow: 0 1px 1px #000;
 }
-/* Estilo específico para o link "Entrar" */
+
 .navbar .nav-links-right a[href="/login"] {
     box-shadow: 0 3px 5px #000;
-    transition: box-shadow 0.5s; /* Adicionando transição para o efeito de sombra */
-    padding: 10px; /* Define o espaçamento interno dos links */
-    border-radius: 6px; /* Define as bordas arredondadas dos links */
+    transition: box-shadow 0.5s; 
+    padding: 10px; 
+    border-radius: 6px; 
     background-color: #f00;
-    color: #fff; /* Cor do texto para combinar com a borda */
+    color: #fff; 
     cursor: pointer;    
 }
 .navbar .nav-links-right a[href="/login"]:hover {
-    box-shadow: 0 1px 2px #000; /* Sombra mais suave ao passar o mouse */
+    box-shadow: 0 1px 2px #000; 
 }
 
-/* Estilo do conteúdo principal */
+
 .content {
-    grid-area: main; /* Define a área do grid ocupada pelo conteúdo principal */
-    background-color: #fff; /* Define a cor de fundo do conteúdo principal */
-    font-family: Arial, sans-serif; /* Define a fonte para todo o documento */
-    color: #666666; /* Define a cor do texto do conteúdo principal */
-    /*padding: 15px;  /*Define o espaçamento interno do conteúdo principal */
-    overflow-y: auto; /* Adiciona rolagem vertical caso o conteúdo exceda a altura máxima */
+    grid-area: main;
+    background-color: #fff;
+    font-family: Arial, sans-serif;
+    color: #666666;
+    /*padding: 15px;*/
+    overflow-y: auto;
 }
 
-/* Estilo do footer */
 .footer {
-    grid-area: footer; /* Define a área do grid ocupada pelo rodapé */
-    display: flex; /* Usa flexbox para alinhar itens */
-    justify-content: center; /* Distribui o espaço entre os itens */
-    background-color: #08d8eb; /* Define a cor de fundo da navbar */
-    color: #000; /* Define a cor do texto do rodapé */
-    padding: 10px; /* Define o espaçamento interno do rodapé */
-    text-align: center; /* Alinha o texto ao centro */
-    gap: 70px; /* Adiciona espaçamento entre os itens do rodapé */
+    grid-area: footer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #08d8eb;
+    color: #000;
+    padding: 10px;
+    text-align: center;
+    gap: 70px;
+    position: relative;
 }
 
-/* Estilos para o link no rodapé */
 .footer_a {
-    color: #000; /* Define a cor dos links do rodapé */
-    padding: 3px 6px; /* Define o espaçamento interno dos links do rodapé */
-    border-radius: 5px; /* Define as bordas arredondadas dos links do rodapé */
-    transition: background-color 0.3s; /* Adiciona uma transição suave para a mudança de cor de fundo */
-    margin: 0 10px; /* Adiciona espaçamento horizontal entre os links */
+    color: #000;
+    padding: 3px 6px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin: 0 10px;
     text-decoration: underline;
 }
 .footer_a:hover {
-    background-color: #fff; /* Define a cor de fundo ao passar o mouse sobre os links do rodapé */
+    background-color: #fff;
     box-shadow: 0 1px 1px #000;
 }
 
-.politicaPrivacidade {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+.footer_signature {
+    font-size: 12px;
+    font-family: "Pacifico", cursive;
+    font-weight: 100;
+    font-style: normal;
+    color: #000;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
 }
 
-/* Media Queries para Responsividade */
-/* Estilos para telas pequenas (smartphones) */
 @media (max-width: 599px) {
     .grid-layout {
         grid-template-areas: 
@@ -161,280 +162,250 @@ html, body {
             "footer";
     }
     .navbar .container {
-        flex-direction: column; /* Alinha itens da navbar em coluna */
-        align-items: center; /* Alinha itens verticalmente ao centro */
-        height: auto; /* Permite que a altura se ajuste automaticamente */
+        flex-direction: column;
+        align-items: center;
+        height: auto;
     }
     .navbar .nav-links {
-        flex-direction: column; /* Alinha links da navbar em coluna */
-        margin-top: 10px; /* Adiciona margem superior aos links */
+        flex-direction: column;
+        margin-top: 10px;
     }
     .navbar .nav-links li {
-        margin-left: 0; /* Remove a margem esquerda dos itens da navegação */
-        margin-bottom: 10px; /* Adiciona espaçamento inferior entre os itens */
+        margin-left: 0;
+        margin-bottom: 10px;
     }
 }
 
-/* Estilos para telas médias (tablets e desktops menores) */
 @media (min-width: 600px) and (max-width: 899px) {
     .navbar .container {
-        height: 50px; /* Ajusta a altura da navbar para tamanhos intermediários */
+        height: 50px;
     }
     .navbar .nav-links {
-        margin-top: 0; /* Remove a margem superior dos links */
+        margin-top: 0;
     }
 }
 
-/* Estilos para telas grandes (desktops e monitores maiores) */
 @media (min-width: 900px) {
     .navbar .container {
-        height: 60px; /* Mantém a altura da navbar para telas grandes */
+        height: 60px;
     }
 }
 
-
-/* PEDIR PARA O CHATGPT FAZER AS QUERIES PARA FORMULÁRIO E LIMPAR ESSE CÓDIGO*/
-/* Estilização para o contêiner do formulário */
 .grid-form {
-    display: inline-block; /* Alterado para inline-block para colocar os formulários na mesma linha */
-    vertical-align: top; /* Alinha os formulários pela parte superior */
-    margin: 12px; /* Margem de 2px em cima e embaixo, centralizado horizontalmente */
-    margin-left: 15px; /* Adiciona uma margem à esquerda para separar os formulários */
-    max-width: 100%; /* Largura máxima do contêiner igual à largura da página */
+    display: inline-block;
+    vertical-align: top;
+    margin: 12px;
+    margin-left: 15px;
+    max-width: 100%;
 }
-
-/* Estilos para agrupar elementos do formulário */
 .form-group {
-    display: inline-block; /* Define os elementos internos para exibição em linha */
-    vertical-align: middle; /* Alinha os elementos verticalmente ao meio */
-    margin-right: 2px; /* Adiciona uma margem à direita para separar os elementos internos */
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 2px;
 }
-
-/* Estilos para os labels do formulário */
 .form-label {
-    font-family: Arial, sans-serif; /* Define a fonte como Arial, com uma fonte genérica sans-serif como backup */
-    font-size: 16px; /* Define o tamanho da fonte como 15 pixels */
-    font-weight: bold; /* Define o peso da fonte como negrito */
-    color: #000000; /* Cor do texto cinza escuro */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
 }
-
-/* Estilos para os elementos de seleção (select) e botões (button) do formulário */
 .form-select, .form-button {
-    width: auto; /* Ocupa todo o espaço disponível */
-    padding: 2px; /* Espaço interno de 8px ao redor dos elementos */
-    border: 1px solid #ccc; /* Borda cinza clara de 1px */
-    border-radius: 4px; /* Bordas arredondadas de 4px */
-    background-color: #fff; /* Cor de fundo branca */
+    width: auto;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #fff;
 }
-
-/* Estilos específicos para o botão do formulário */
 .form-button {
-    background-color: #007BFF; /* Cor de fundo azul */
-    cursor: pointer; /* Cursor do mouse muda para pointer (mão) */
-    transition: background-color 0.3s; /* Transição suave de 0.3 segundos para a cor de fundo */
-    margin-right: 10px; /* Adiciona uma margem à direita para separar os elementos internos */
+    background-color: #007BFF;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 10px;
 }
-/* Estilos para o botão quando o mouse passa por cima (hover) */
 .form-button:hover {
-    background-color: #0056b3; /* Altera a cor de fundo para um azul mais escuro quando em hover */
+    background-color: #0056b3;
 }
-/* Estilos específicos para a tabela do próximos_jogos_lista.html */
 .grid-table {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /* Define 4 colunas de largura igual */
-    row-gap: 10px; /* Espaço entre as linhas */
-    column-gap: 10px; /* Espaço entre as colunas */
+    grid-template-columns: repeat(5, 1fr);
+    row-gap: 10px;
+    column-gap: 10px;
     max-width: 100%;
-    font-family: Arial, sans-serif; /* Define a fonte como Arial, com uma fonte genérica sans-serif como backup */
-    font-size: 13px; /* Define o tamanho da fonte */
-    color: #fff; /* Define a cor do texto como branco */
-    margin-top: 5px; /* Espaço superior acima da tabela */
-    margin-bottom: 10px; /* Espaço inferior abaixo da tabela */
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #fff;
+    margin-top: 5px;
+    margin-bottom: 10px;
     margin-left: 10px;
     margin-right: 10px;
 }
-
 .grid-column {
-    display: flex; /* Usa flexbox para alinhamento */
-    flex-direction: column; /* Alinha os itens verticalmente */
-    background-color: #444; /* Fundo cinza escuro para a coluna */
-    padding: 5px; /* Espaço interno ao redor das células */
+    display: flex;
+    flex-direction: column;
+    background-color: #444;
+    padding: 5px;
 }
-
 .grid-cell {
-    display: flex; /* Usa flexbox para alinhar os itens */
-    justify-content: space-between; /* Espaço entre os elementos da célula */
-    padding: 6px; /* Espaço interno (padding) */
-    background-color: #333; /* Fundo cinza para cada célula */
-    border: none; /* Remove qualquer borda */
-    /* line-height: 2; Ajusta a altura da linha se necessário */
+    display: flex;
+    justify-content: space-between;
+    padding: 6px;
+    background-color: #333;
+    border: none;
 }
-
 .grid-cell .date, .grid-cell .time {
-    margin-right: 25px; /* Espaço entre a data/hora e o time */
-    font-family: Arial, sans-serif; /* Define a fonte como Arial, com uma fonte genérica sans-serif como backup */
-    font-size: 13px; /* Define o tamanho da fonte */
-    color: #fff; /* Define a cor do texto como branco */
+    margin-right: 25px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #fff;
 }
-
 .grid-cell .team {
-    flex-grow: 1; /* Faz com que o time ocupe o espaço restante */
-    text-align: left; /* Alinha o time à esquerda */
-    font-family: Arial, sans-serif; /* Define a fonte como Arial, com uma fonte genérica sans-serif como backup */
-    font-size: 13px; /* Define o tamanho da fonte */
-    color: #fff; /* Define a cor do texto como branco */
+    flex-grow: 1;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #fff;
 }
 
-
-
-/* Ajuste de layout para dispositivos menores */
 @media (max-width: 600px) {
     .grid-form {
-        max-width: 100%; /* Largura máxima de 100% para se ajustar a telas menores */
+        max-width: 100%;
     }
     .form-group {
-        flex-direction: column; /* Altera a direção dos elementos para empilhados verticalmente */
+        flex-direction: column;
     }
 }
 
-/* Estilização nomes times irão jogar, data e hora no topo do body */
 .times-info {
-    margin: 5px;
-    margin-bottom: 10px;
-    font-family: Arial, sans-serif; /* Define a fonte como Arial, com uma fonte genérica sans-serif como backup */
-    font-size: 25px; /* Aumenta o tamanho da fonte da descrição */
-    font-weight: bold; /* Adiciona negrito à fonte da descrição */
-    color: #000; /* Define a cor cinza para a descrição */
+    margin: 15px;
+    margin-bottom: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 21px;
+    font-weight: bold;
+    color: #066f1d;
     text-align: center;
 }
 
-/* INÍCIO DA ESTILIZAÇÃO DE TODOS OS GRÁFICOS */
-/* Descrição de todos os gráficos, ex.: jogos, pontos, etc. */
 .descricao {
     margin-top: 3px;
-    font-family: Arial, sans-serif; /* Define a fonte como Arial, com uma fonte genérica sans-serif como backup */
-    font-size: 15px; /* Aumenta o tamanho da fonte da descrição */
-    color: #000; /* Define a cor preta para a descrição */
-    text-align: center; /* Centraliza o texto */
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    color: #000;
+    text-align: center;
 }
 
 .chartjs-legend {
-    order: 1; /* Garante que a legenda venha depois do gráfico */
-    margin-top: 0px; /* Adiciona uma margem superior para separar a legenda do gráfico */
-    text-align: center; /* Centraliza a legenda */
+    order: 1;
+    margin-top: 0px;
+    text-align: center;
 }
 
-/* Primeiro container do proximos_jogos_gaficos.html */
 .chart-container1 {
-    display: grid; /* Define o contêiner como um grid */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Define colunas que se ajustam automaticamente */
-    gap: 10px; /* Espaçamento entre os itens do grid */
-    padding: 5px; /* Adiciona espaçamento interno ao contêiner */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 5px;
     margin-left: 5px;
     margin-right: 5px;
 }
 .chart-itemCont1 {
-    border-radius: 10px; /* Deixa os cantos arredondados */
-    background-color: #fff; /* Define a cor de fundo */
-    display: flex; /* Usa o layout flexível para o conteúdo interno */
-    flex-direction: column; /* Define a direção dos itens dentro do flex container */
-    box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
-    padding: 1px; /* Adiciona espaçamento interno */
-    margin: 0; /* Remove a margem externa, já que o espaço é gerenciado pelo gap do grid */
-    box-shadow: 0 0 7px #90909090; /* Adiciona uma borda cinza esfumada */
+    border-radius: 10px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 1px;
+    margin: 0;
+    box-shadow: 0 0 7px #90909090;
 }
 
-/* Segundo container do proximos_jogos_gaficos.html */
 .chart-container2 {
-    display: grid; /* Define o contêiner como um grid */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Define colunas que se ajustam automaticamente */
-    gap: 10px; /* Espaçamento entre os itens do grid */
-    padding: 5px; /* Adiciona espaçamento interno ao contêiner */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 5px;
     margin-left: 5px;
     margin-right: 5px;
 }
 
 .chart-itemCont2 {
-    border-radius: 10px; /* Deixa os cantos arredondados */
-    background-color: #fff; /* Define a cor de fundo */
-    display: flex; /* Usa o layout flexível para o conteúdo interno */
-    flex-direction: column; /* Define a direção dos itens dentro do flex container */
-    box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
-    padding: 1px; /* Adiciona espaçamento interno */
-    margin: 0; /* Remove a margem externa, já que o espaço é gerenciado pelo gap do grid */
-    box-shadow: 0 0 7px #90909090; /* Adiciona uma borda cinza esfumada */
+    border-radius: 10px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 1px;
+    margin: 0;
+    box-shadow: 0 0 7px #90909090;
 }
 
-/* Terceiro container do proximos_jogos_gaficos.html */
 .chart-container3 {
-    display: grid; /* Define o contêiner como um grid */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Define colunas que se ajustam automaticamente */
-    gap: 10px; /* Espaçamento entre os itens do grid */
-    padding: 5px; /* Adiciona espaçamento interno ao contêiner */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    padding: 5px;
     margin-left: 5px;
     margin-right: 5px;
     margin-bottom: 5px;
 }
 
 .chart-itemCont3 {
-    border-radius: 10px; /* Deixa os cantos arredondados */
-    background-color: #fff; /* Define a cor de fundo */
-    display: flex; /* Usa o layout flexível para o conteúdo interno */
-    flex-direction: column; /* Define a direção dos itens dentro do flex container */
-    box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
-    padding: 1px; /* Adiciona espaçamento interno */
-    margin: 0; /* Remove a margem externa, já que o espaço é gerenciado pelo gap do grid */
-    box-shadow: 0 0 7px #90909090; /* Adiciona uma borda cinza esfumada */
+    border-radius: 10px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 1px;
+    margin: 0;
+    box-shadow: 0 0 7px #90909090;
 }
 
-/* Estilo para a div que contém o texto */
 .ultimos-jogos, .infor-jogos, .melhor-pior {
-    border-radius: 10px; /* Deixa os cantos arredondados */
-    background-color: #fff; /* Define a cor de fundo */
-    display: flex; /* Usa o layout flexível para o conteúdo interno */
-    flex-direction: column; /* Define a direção dos itens dentro do flex container */
-    box-sizing: border-box; /* Inclui padding e border no cálculo da largura e altura */
-    padding: 3px; /* Adiciona espaçamento interno */
-    font-family: Arial, sans-serif; /* Define a fonte como Arial, com uma fonte genérica sans-serif como backup */
-    font-size: 13px; /* Aumenta o tamanho da fonte da descrição */
-    /*font-weight: bold*/
-    box-shadow: 0 0 7px #90909090; /* Adiciona uma borda cinza esfumada */
+    border-radius: 10px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 3px;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    box-shadow: 0 0 7px #90909090;
 }
 
-/* Estilo para o título da div que contém o texto */
 .mpu-titulo {
     margin-top: 3px;
-    font-family: Arial, sans-serif; /* Define a fonte como Arial, com uma fonte genérica sans-serif como backup */
-    font-size: 15px; /* Aumenta o tamanho da fonte da descrição */
-    color: #000; /* Define a cor preta para a descrição */
-    text-align: center; /* Centraliza o texto */
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    color: #000;
+    text-align: center;
 }
 
 .ultimos-jogos p, .infor-jogos p, .melhor-pior p {
     margin-left: 5px;
 }
+
 .resultados {
     display: flex;
-    gap: 5px; /* Espaçamento entre as bolas */
+    gap: 5px;
     margin-left: 5px;
 }
 
 .bola {
     width: 17px;
     height: 17px;
-    border-radius: 50%; /* Transforma em uma bola */
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     font-size: 10px;
-    text-align: center; /* Centraliza o texto horizontalmente */
-    line-height: 1; /* Ajusta a altura da linha para centralizar verticalmente */
+    text-align: center;
+    line-height: 1;
 }
 
 .verde {
-    background-color: #4CAF50; /* Verde */
-    color: #fff; /* Texto branco */
+    background-color: #4CAF50;
+    color: #fff;
 }
 
 .vermelha {
@@ -474,24 +445,217 @@ html, body {
     }
 }
 
+/* ÉSTILOS PARA SOBRE-NÓS.HTML */
+.sobreNos-container1 {
+    width: 100%;
+    padding: 20px;
+    background-color: #c8f7f3;
+    box-sizing: border-box;
+}
+.sobreNos-itensCont1, .cookie-policy-itensCont1 {
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    color: #333;
+    line-height: 1.9;
+    text-align: justify;
+}
+.sobreNos-Titulo {
+    font-family: "Pacifico", cursive;
+    font-size: 30px;
+    color: #000000;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+/* ÉSTILOS PARA OFERECEMOS.HTML */
+.oferecemos-Titulo, .politica-Titulo {
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+.oferecemos-container2, .oferecemos-container3, .oferecemos-container4, .oferecemos-container5 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 20px;
+}
+.oferecemos-itensCont {
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 7px #90909090;
+    color: #333333; 
+    margin-bottom: 10px;
+}
+.oferecemos-itensCont p {
+    text-align: justify;
+    font-size: 16px;
+    line-height: 1.7;
+}
+.imagem-oferecemos {
+    max-width: 100%; 
+    height: auto; 
+    border-radius: 8px;
+    margin-bottom: 5px;
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+/* ÉSTILOS PARA FALECONOSCO.HTML */
+.faleConosco-Titulo  {
+    margin-top: 60px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    color: #000;
+}
+.faleConosco-SubTit {
+    margin-top: 50px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+.faleConosco-descr {
+    margin-top: 60px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 19px;
+    color: #000;
+}
+.faleConosco-itensCont {
+    max-width: 550px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: #333;
+    line-height: 0.9;
+    text-align: justify;
+}
+.faleConosco-form-container {
+    flex: 1;
+    padding: 20px; 
+    background-color: #fff;
+    max-width: 500px; 
+    margin: 0 auto; 
+}
+.faleConosco-form {
+    display: flex;
+    flex-direction: column;
+}
+.faleConosco-form .faleConosco-form-group {
+    margin-bottom: 40px; 
+}
+.faleConosco-form label {
+    
+    display: block; 
+    font-weight: none; 
+    margin: 5px;
+    margin-bottom: 10px; 
+}
+.faleConosco-form input, .faleConosco-form textarea {
+    width: 100%; 
+    padding: 8px; 
+    border: 1px solid #000;
+    border-top: none; 
+    border-left: 1px solid; 
+    border-right: 1px solid; 
+    border-bottom: 1px solid;
+    border-radius: 0; 
+}
+.faleConosco-form button {
+    background-color: #666666; 
+    font-size: 17px;
+    font-weight: bold;
+    color: #fff; 
+    cursor: pointer;
+    border: none; 
+    padding: 10px 20px;
+    border-radius: 0px; 
+    transition: background-color 0.3s;
+}
+.faleConosco-form button:hover {
+    background-color: #000; 
+}
+
+.success-message {
+    text-align: center;
+    background: #d4edda; 
+    padding: 20px;
+    border-radius: 8px;
+    color: #155724; 
+}
+
+.oferecemos-container2::before {
+    content: "";
+    position: absolute;
+    width: 2px;
+    background-color: #08d8eb;
+    height: 450px; /* Defina o valor desejado */
+    left: 50%;
+    top: 50%; /* Ajusta a linha para começar do meio */
+    transform: translateY(-50%); /* Para centralizar verticalmente */
+}
+
+/* Estilização da imagem */
+.imagem-login {
+    max-width: 70%;  
+    width: 100%;     
+    height: auto;    
+    display: block;  
+    margin: 0 auto;  
+    margin-top: 40px; 
+}
+
+
+@media (max-width: 768px) {
+    .oferecemos-container2 {
+        flex-direction: column;
+    }
+
+    .oferecemos-container2::before {
+        left: 0;
+        width: 100%;
+        height: 2px;
+    }
+}
+
+
+
+.visitor-log-list {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
 #cookie-consent {
-    display: block; /* Certifique-se de que o display está configurado corretamente */
+    display: block; 
     position: fixed;
     bottom: 10px;
     left: 10px;
-    max-width: 300px; /* Define a largura máxima */
+    max-width: 300px;
     background-color: rgba(0, 0, 0, 0.8);
     color: #fff;
     padding: 10px;
-    text-align: left; /* Alinha o texto à esquerda */
+    text-align: left; 
     z-index: 1000;
     font-size: 14px;
-    border-radius: 8px; /* Cantos arredondados para um visual mais suave */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adiciona uma leve sombra para destaque */
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
 }
 
 #cookie-consent p {
-    margin: 0 0 10px 0; /* Margem inferior para separar o texto do botão */
+    margin: 0 0 10px 0;
 }
 
 #cookie-consent a {
@@ -517,210 +681,6 @@ html, body {
     background-color: #0056b3;
 }
 
-/* Estilo específico para a página de contato e login */
-/* Container principal para o conteúdo */
-.content-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: 100%; /* Define a altura do container para 100% */
-    width: 100%;
-    padding: 10px; /* Reduz o padding para evitar excesso de espaço */
-    box-sizing: border-box;
-    gap: 10px; /* Reduz o gap entre os containers */
-    background-color: #fff; /* Adiciona uma cor de fundo leve */
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 0; /* Remove a margem para ocupar todo o espaço do body */
-}
-
-/*ÉSTILOS PARA SOBRE-NÓS.HTML*/
-.sobreNos-Titulos {
-    font-family: "Pacifico", cursive;
-    font-size: 30px;
-    color: #000000;
-    text-align: center;
-    margin-bottom: 20px;
-}
-.sobreNos-SubTit {
-    font-size: 24px;
-    color: #000000;
-    text-align: center;
-    margin-bottom: 20px;
-}
-.sobreNos-container1 {
-    width: 100%; /* Garante que o container ocupe toda a largura */
-    padding: 20px; /* Mantém um espaçamento interno */
-    background-color: #c8f7f3; /* Cor de fundo clara */
-    margin-bottom: 30px; /* Espaçamento inferior */
-    box-sizing: border-box; /* Inclui o padding na largura total */
-}
-.sobreNos-itensCont1 {
-    max-width: 900px; /* Define um limite para o conteúdo */
-    margin: 0 auto; /* Centraliza o conteúdo dentro do container */
-    font-family: 'Arial', sans-serif;
-    font-size: 18px;
-    color: #333;
-    line-height: 1.9;
-    text-align: justify;
-}
-.sobreNos-container2, .sobreNos-container3, .sobreNos-container4, .sobreNos-container5 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  padding: 20px;
-}
-.sobreNos-itensCont {
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 0 7px #90909090;
-    color: #333333; /* Cor do texto mais escura */
-    margin-bottom: 10px; /* Espaçamento inferior para separar do próximo elemento */
-}
-.sobreNos-itensCont p {
-    text-align: justify;
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-.imagem-sobreNos {
-    max-width: 100%; /* Reduz a largura máxima para 80% do container */
-    height: auto; /* Mantém a proporção da imagem */
-    border-radius: 8px; /* Deixa os cantos levemente arredondados */
-    margin-bottom: 5px; /* Espaçamento inferior */
-    margin-left: auto; /* Centraliza horizontalmente */
-    margin-right: auto; /* Centraliza horizontalmente */
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* Estilo para o container de texto e login */
-.text-container {
-    flex: 1;
-    padding: 10px; /* Reduz o padding */
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo para o container do formulário e login */
-.form-container {
-    flex: 1;
-    padding: 10px; /* Reduz o padding */
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo específico para o formulário de Contato e login */
-.contato-form input, .contato-form textarea {
-    width: 100%;
-    border: 1px solid #007bff;
-    padding: 8px; /* Reduz o padding */
-    margin-bottom: 8px; /* Reduz a margem inferior */
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.contato-form button {
-    background-color: #007bff; /* Cor de fundo do botão */
-    color: #fff; /* Cor do texto do botão */
-    border: none; /* Remove a borda padrão do botão */
-    padding: 8px 16px; /* Reduz o padding */
-    border-radius: 4px; /* Cantos arredondados do botão */
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.contato-form button:hover {
-    background-color: #0056b3; /* Cor de fundo do botão ao passar o mouse */
-}
-
-/* Ajustes adicionais */
-.content-container h2 {
-    margin-bottom: 36px; /* Reduz a margem inferior */
-}
-
-.content-container p, .content-container ul {
-    margin-bottom: 16px; /* Reduz a margem inferior */
-}
-
-.content-container ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.content-container ul li {
-    margin-bottom: 8px; /* Reduz a margem inferior */
-}
-
-
-/* Estilo para a mensagem de sucesso do Contato */
-.success-message {
-    text-align: center;
-    background: #d4edda; /* Cor de fundo da mensagem de sucesso */
-    padding: 20px;
-    border-radius: 8px;
-    color: #155724; /* Cor do texto da mensagem de sucesso */
-}
-
-
-
-
-/* Estilo específico para o formulário de Login */
-.login-form input {
-    width: 100%;
-    border: 1px solid #007bff;
-    padding: 10px; /* Define o padding */
-    margin-bottom: 10px; /* Define a margem inferior */
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.login-form button {
-    background-color: #007bff; /* Cor de fundo do botão */
-    color: #fff; /* Cor do texto do botão */
-    border: none; /* Remove a borda padrão do botão */
-    padding: 10px 20px; /* Define o padding */
-    border-radius: 4px; /* Cantos arredondados do botão */
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    width: 100%; /* Define a largura do botão */
-    box-sizing: border-box;
-}
-
-.login-form button:hover {
-    background-color: #0056b3; /* Cor de fundo do botão ao passar o mouse */
-}
-
-/* Ajustes adicionais */
-.form-container h2, .text-container h2 {
-    margin-bottom: 20px; /* Define a margem inferior */
-}
-
-.form-container p, .text-container p {
-    margin-bottom: 15px; /* Define a margem inferior */
-}
-
-/* Estilo para a lista de logs de visitantes */
-.visitor-log-list {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-}
 
 .visitor-log-list .button {
     background-color: #007bff;
@@ -801,18 +761,6 @@ html, body {
     background-color: #c82333;
 }
 
-/* Estilo específico para o formulário de registro */
-.register-form input {
-    border-color: #343a40;
-}
-
-.register-form button {
-    background-color: #343a40;
-}
-
-.register-form button:hover {
-    background-color: #23272b;
-}
 
 /* Estilo para a página inicial */
 .home {
@@ -822,30 +770,9 @@ html, body {
     text-align: center;
 }
 
-/* Estilos adicionais para links */
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
 
 /* Estilo para mensagens e botões */
 p {
     margin-top: 10px;
 }
 
-button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
